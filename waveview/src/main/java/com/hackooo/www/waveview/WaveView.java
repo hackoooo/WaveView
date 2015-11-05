@@ -1,5 +1,7 @@
 package com.hackooo.www.waveview;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -39,16 +41,13 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
     int circleRadius;                            //背景圆形的半径
 
     //中间图标
-    public static Bitmap mid;
+    public Bitmap mid;
     int midw, midh;
     int midTargetWidth,midTargetHeight;
 
     //波浪条
-    public static Bitmap bg;
+    public Bitmap bg;
     int bgw,bgh;
-
-    //=============branche ttttttttt
-    //=============branch  test
 
     //缩放后的中间图标
     Bitmap scaleBitmap;
@@ -68,9 +67,10 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
         midh = mid.getHeight();
 
         paint = new Paint();
+        paint.setColor(bgColor);
+        paint.setAntiAlias(true);
         paint2 = new Paint();
     }
-    //TODO 这两个图检查
     private void loadRes(){
         if(null == bg || bg.isRecycled()){
             bg = BitmapFactory.decodeResource(getResources(), R.mipmap.loading_bg);
@@ -97,7 +97,7 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
     }
     public void startAnim(ValueAnimator animator){
         if(null == animator){
-            valueAnimator = ValueAnimator.ofFloat(0, 1);
+            valueAnimator = ValueAnimator.ofFloat(0,1);
             valueAnimator.addUpdateListener(this);
             valueAnimator.setDuration(1000);
             valueAnimator.setRepeatMode(ValueAnimator.INFINITE);
@@ -110,7 +110,31 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
         }
     }
     public void hide(){
-        setVisibility(GONE);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(this, "alpha", 1f, 0f);
+        animator.addListener(new ObjectAnimator.AnimatorListener(){
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                setVisibility(GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.setDuration(200);
+        animator.start();
     }
 
     @Override
@@ -143,7 +167,6 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
 
         //画背景
         int sc = canvas.saveLayer(0, 0, width, height, null, Canvas.ALL_SAVE_FLAG);
-        paint.setColor(bgColor);
         canvas.drawCircle(width / 2f, height / 2f, circleRadius, paint);
         paint.setXfermode(clearMode);
         canvas.drawBitmap(scaleBitmap, getStartX(midTargetWidth), getStartY(midTargetHeight), paint);
@@ -151,7 +174,7 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
         canvas.restoreToCount(sc);
 
         //画中间层的颜色
-        sc = canvas.saveLayer(0,0,width,height,null, Canvas.ALL_SAVE_FLAG);
+        sc = canvas.saveLayer(0,0,width,height,null,Canvas.ALL_SAVE_FLAG);
         canvas.drawBitmap(scaleBitmap, getStartX(midTargetWidth), getStartY(midTargetHeight), paint2);
         paint2.setXfermode(atTopMode);
         paint2.setShader(shader);
@@ -177,7 +200,14 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
         return (int)(height/2f - h/2f);
     }
 
+
     float fraction = 0f;
+
+    @Override
+    protected void onDetachedFromWindow() {
+        setVisibility(GONE);
+        super.onDetachedFromWindow();
+    }
 
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
@@ -188,6 +218,15 @@ public class WaveView extends View implements ValueAnimator.AnimatorUpdateListen
             animation.removeUpdateListener(this);
             if(null != valueAnimator && animation.equals(valueAnimator)){
                 valueAnimator.cancel();
+            }
+            valueAnimator = null;
+            if(null != bg){
+                bg.recycle();
+                bg = null;
+            }
+            if(null != mid){
+                mid.recycle();
+                mid = null;
             }
         }
     }
