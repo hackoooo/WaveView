@@ -1,4 +1,4 @@
-package com.hackooo.www.waveview;
+package com.hackooo.www.aosp;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+
+import com.hackooo.www.waveview.WaveView;
 
 /**
  * Created by hackooo on 2015/10/29.
@@ -52,8 +54,8 @@ public class MyWaveView extends WaveView {
     @Override
     protected void onPreDrawWave(Canvas canvas){
         //画背景
-        int sc = canvas.saveLayer(0, 0, getLayoutWidth(), getLayoutHeight(), null, Canvas.ALL_SAVE_FLAG);
-        canvas.drawCircle(getLayoutWidth() / 2f, getLayoutHeight() / 2f, circleRadius, paint);
-        canvas.restoreToCount(sc);
+//        int sc = canvas.saveLayer(0, 0, getLayoutWidth(), getLayoutHeight(), null, Canvas.ALL_SAVE_FLAG);
+//        canvas.drawCircle(getLayoutWidth() / 2f, getLayoutHeight() / 2f, circleRadius, paint);
+//        canvas.restoreToCount(sc);
     }
 }
