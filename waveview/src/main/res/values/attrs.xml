@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveView">
+        <attr name="outlineColor" format="color|reference" />
+        <attr name="patternScaleFactor" format="float"></attr>
+        <attr name="patternRes" format="reference"></attr>
+        <attr name="waveRes" format="reference"></attr>
+    </declare-styleable>
+
+</resources>
