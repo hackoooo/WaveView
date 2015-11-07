@@ -20,10 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView(){
         waveView = (MyWaveView) findViewById(R.id.waveView);
 
-        //1.start with default animator
-        //waveView.startAnim();
-
-        //2. start with custom animator
+        //start with custom animator
         final ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1f);
         valueAnimator.setRepeatCount(Integer.MAX_VALUE);
         valueAnimator.setRepeatMode(ValueAnimator.INFINITE);
