@@ -8,7 +8,19 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
+    <com.hackooo.www.waveview.MyWaveView
+        android:id="@+id/waveView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:waveRes="@mipmap/loading_bg"
+        app:patternRes="@mipmap/loading_mid"/>
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="switch"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
-    <TextView android:text="Hello World!" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </RelativeLayout>

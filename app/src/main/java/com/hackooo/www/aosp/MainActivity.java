@@ -1,52 +1,56 @@
 package com.hackooo.www.aosp;
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.widget.Button;
+
+import com.hackooo.www.waveview.MyWaveView;
 
 public class MainActivity extends AppCompatActivity {
 
+    MyWaveView waveView;
+    Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initView();
+    }
+    private void initView(){
+        waveView = (MyWaveView) findViewById(R.id.waveView);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //1.start with default animator
+        //waveView.startAnim();
+
+        //2. start with custom animator
+        final ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1f);
+        valueAnimator.setRepeatCount(Integer.MAX_VALUE);
+        valueAnimator.setRepeatMode(ValueAnimator.INFINITE);
+        valueAnimator.setDuration(1000);
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float fraction = animation.getAnimatedFraction();
+                waveView.update(fraction);
             }
         });
-    }
+        valueAnimator.start();
+        waveView.start();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        btn = (Button) findViewById(R.id.btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (waveView.isRunning()) {
+                    waveView.pause();
+                } else {
+                    waveView.start();
+                }
+            }
+        });
     }
 }
