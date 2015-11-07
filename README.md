@@ -2,7 +2,7 @@
 Android 波浪特效。
 实现原理：参考[我的博客](http://blog.csdn.net/hackooo/article/details/49704337)
 
-效果图如下：
+效果图如下：<br>
 ![](https://github.com/hackoooo/WaveView/blob/master/images/GIF.gif) 
 
 ##如何使用
