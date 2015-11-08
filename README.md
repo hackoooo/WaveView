@@ -6,6 +6,12 @@ Android 波浪特效。
 ![](https://github.com/hackoooo/WaveView/blob/master/images/GIF.gif) 
 
 ##如何使用
+1.gradle添加依赖
+```gradle
+compile 'com.hackooo.www.lib:waveview:0.1.0'
+```
+
+2.自定义自己的逻辑
 ```Java
 public class MyWaveView extends WaveView{
     @Override
@@ -24,7 +30,7 @@ public class MyWaveView extends WaveView{
     }
 }
 ```
-
+3.配置图案资源文件和布局参数
 ```Java
       <com.hackooo.www.aosp.MyWaveView
         android:id="@+id/waveView"
@@ -35,7 +41,7 @@ public class MyWaveView extends WaveView{
         app:patternScaleFactor="0.618f"           //自定义图案相对于布局的缩放系数
         />
 ```
-
+4.执行动画
 让动画动起来：
 ```Java
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1f);
@@ -53,6 +59,16 @@ public class MyWaveView extends WaveView{
         valueAnimator.start();
         waveView.start();
 ```
+5.一些简单的api
+```Java
+public void start();          //设置WaveView开始状态，接收update的请求
+public void pause();          //设置暂停状态，暂停接收update的请求
+public void stop();           //暂停接收update请求，并且隐藏WaveView
+public void stopAndRecycle(); //同stop();并且释放资源文件的引用
 
+//更新WaveView的状态，两个参数均为0~1f之间的值，fraction为波浪水平移动的偏移，progress为Y轴方向的偏移。
+public void update(float fraction,float progress);
+public void update(float fraction);//同上，progress采用默认值
+```
 
 
