@@ -42,7 +42,7 @@ public class MyWaveView extends WaveView{
         />
 ```
 4.执行动画
-让动画动起来：
+让波浪动起来：
 ```Java
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1f);
         valueAnimator.setRepeatCount(Integer.MAX_VALUE);
