@@ -61,12 +61,17 @@ public class MyWaveView extends WaveView{
 ```
 5.一些简单的api
 ```Java
+
+public void setStartProgress(float startProgress);          //设置波浪Y轴的起始偏移
+public void setPatternScaleFactor(float patternScaleFactor);//设置图案的缩放系数
+
 public void start();          //设置WaveView开始状态，接收update的请求
 public void pause();          //设置暂停状态，暂停接收update的请求
 public void stop();           //暂停接收update请求，并且隐藏WaveView
 public void stopAndRecycle(); //同stop();并且释放资源文件的引用
+public boolean isRunning();   //是否接收update请求
 
-//更新WaveView的状态，两个参数均为0~1f之间的值，fraction为波浪水平移动的偏移，progress为Y轴方向的偏移。
+//更新WaveView的状态，两个参数均为0~1f之间的值，fraction为波浪水平移动的偏移，progress为Y轴方向的偏移
 public void update(float fraction,float progress);
 public void update(float fraction);//同上，progress采用默认值
 ```
